@@ -7,34 +7,46 @@ import subprocess
 import os
 import pyfiglet
 import threading
+import getpass
 
 open_redirect_parameter = ['=http','=https','=www']
+current_user = getpass.getuser()
+hunt_folder = "bugbounty"
+target_folder = "target"
 
 
 def creat_folder(name_folder):
-    check_dir_main = os.path.isdir('/home/spawnzii/Desktop/bugbounty/target/{}'.format(name_folder))
-    if check_dir_main == False:
-        os.mkdir('/home/spawnzii/Desktop/bugbounty/target/{}'.format(name_folder))
-        print('\033[92m[*] Creating folders ...\033[0m')
-    else:
-        print('\033[93m[-] Folder already created\033[0m')
+    check_dir_bb = os.path.isdir('/home/{}/Desktop/{}'.format(current_user,hunt_folder))
+    if check_dir_bb == False:
+        os.mkdir('/home/{}/Desktop/{}'.format(current_user,hunt_folder))
 
-    check_dir_url = os.path.isdir('/home/spawnzii/Desktop/bugbounty/target/{}/url'.format(name_folder))
+    check_dir_t = os.path.isdir('/home/{}/Desktop/{}/{}'.format(current_user,hunt_folder,target_folder))
+    if check_dir_t == False:
+        os.mkdir('/home/{}/Desktop/{}/{}'.format(current_user,hunt_folder,target_folder))
+
+    check_dir_main = os.path.isdir('/home/{}/Desktop/{}/{}/{}'.format(current_user,hunt_folder,target_folder,name_folder))
+    if check_dir_main == False:
+        os.mkdir('/home/{}/Desktop/{}/{}/{}'.format(current_user,hunt_folder,target_folder,name_folder))
+        print('\033[92m[+] Creating folders...\033[0m')
+    else:
+        print('\033[93m[-] Folder already created at /home/{}/Desktop/{}/{}/{}\033[0m'.format(current_user,hunt_folder,target_folder,name_folder))
+
+    check_dir_url = os.path.isdir('/home/{}/Desktop/{}/{}/{}/url'.format(current_user,hunt_folder,target_folder,name_folder))
     if check_dir_url == False:
-        os.mkdir('/home/spawnzii/Desktop/bugbounty/target/{}/url'.format(name_folder))
+        os.mkdir('/home/{}/Desktop/{}/{}/{}/url'.format(current_user,hunt_folder,target_folder,name_folder))
     
 
 def subdomain_enum(target,name_folder):
-    check_dir_sub = os.path.isfile('/home/spawnzii/Desktop/bugbounty/target/{}/subdomain.txt'.format(name_folder))
+    check_dir_sub = os.path.isfile('/home/{}/Desktop/{}/{}/{}/subdomain.txt'.format(current_user,hunt_folder,target_folder,name_folder))
     if check_dir_sub == False:
-        print("\033[92m[*] Get all subdomains ...\033[0m")
-        sublister = subprocess.run([sys.executable,"/usr/local/bin/sublist3r.py","-d",""+target+"","-o","/home/spawnzii/Desktop/bugbounty/target/"+name_folder+"/subdomain.txt"],stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT)
+        print("\033[92m[+] Get all subdomains ...\033[0m")
+        sublister = subprocess.run([sys.executable,"/usr/local/bin/sublist3r.py","-d",""+target+"","-o","/home/"+current_user+"/Desktop/"+hunt_folder+"/"+target_folder+"/"+name_folder+"/subdomain.txt"],stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT)
     else:
-        print("\033[92m[*] Already have subdomains ...\033[0m")
+        print("\033[93m[-] Already have subdomains ...\033[0m")
 
 def scrap_url(name_folder):
-        print('\033[92m[*] Get urls of subdomains ...\033[0m')
-        sub_file = open("/home/spawnzii/Desktop/bugbounty/target/{}/subdomain.txt".format(name_folder),"r")
+        print('\033[92m[+] Get urls of subdomains ...\033[0m')
+        sub_file = open("/home/{}/Desktop/{}/{}/{}/subdomain.txt".format(current_user,hunt_folder,target_folder,name_folder),"r")
         sub_number = 0
         sub_list = []
         for sub in sub_file:
@@ -46,14 +58,14 @@ def scrap_url(name_folder):
         print('\033[92m[+] Try to find potential open redirect ...\033[0m')
 
 def url_file(name_folder,sub_list,i):
-    cmd = '/usr/bin/echo "{}" | /usr/local/bin/waybackurls >> /home/spawnzii/Desktop/bugbounty/target/{}/url/{}.txt '.format(sub_list[i].rstrip("\n"),name_folder,sub_list[i].rstrip("\n"))
+    cmd = '/usr/bin/echo "{}" | /usr/local/bin/waybackurls >> /home/{}/Desktop/{}/{}/{}/url/{}.txt '.format(sub_list[i].rstrip("\n"),current_user,hunt_folder,target_folder,name_folder,sub_list[i].rstrip("\n"))
     subprocess.Popen(cmd,shell=True,stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT).wait()
     open_redirect(name_folder)
 
 
 def open_redirect(name_folder):
     known_url = []
-    path = "/home/spawnzii/Desktop/bugbounty/target/{}/url/".format(name_folder)
+    path = "/home/{}/Desktop/{}/{}/{}/url/".format(current_user,hunt_folder,target_folder,name_folder)
     url_list = os.listdir(path)
     for file in url_list:
         size = os.path.getsize(path+file)
@@ -63,7 +75,7 @@ def open_redirect(name_folder):
             for url in f:
                 for p in open_redirect_parameter:
                     if p in url :
-                        file_open_path = '/home/spawnzii/Desktop/bugbounty/target/{}/redirect'.format(name_folder)
+                        file_open_path = '/home/{}/Desktop/{}/{}/{}/redirect'.format(current_user,hunt_folder,target_folder,name_folder)
                         if url not in known_url:
                             f = open(file_open_path, "a")
                             f.write(url)
