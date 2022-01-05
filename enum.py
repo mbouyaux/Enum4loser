@@ -14,7 +14,6 @@ current_user = getpass.getuser()
 hunt_folder = "bugbounty"
 target_folder = "target"
 
-
 def creat_folder(name_folder):
     check_dir_bb = os.path.isdir('/home/{}/Desktop/{}'.format(current_user,hunt_folder))
     if check_dir_bb == False:
@@ -24,12 +23,12 @@ def creat_folder(name_folder):
     if check_dir_t == False:
         os.mkdir('/home/{}/Desktop/{}/{}'.format(current_user,hunt_folder,target_folder))
 
-    check_dir_main = os.path.isdir('/home/{}/Desktop/{}/{}/{}'.format(current_user,hunt_folder,target_folder,name_folder))
+    check_dir_main = os.path.isdir('/home/{}/Desktop/{}/{}/{}/'.format(current_user,hunt_folder,target_folder,name_folder))
     if check_dir_main == False:
-        os.mkdir('/home/{}/Desktop/{}/{}/{}'.format(current_user,hunt_folder,target_folder,name_folder))
+        os.mkdir('/home/{}/Desktop/{}/{}/{}/'.format(current_user,hunt_folder,target_folder,name_folder))
         print('\033[92m[+] Creating folders...\033[0m')
     else:
-        print('\033[93m[-] Folder already created at /home/{}/Desktop/{}/{}/{}\033[0m'.format(current_user,hunt_folder,target_folder,name_folder))
+        print('\033[93m[-] Folder already created at /home/{}/Desktop/{}/{}/{}/ \033[0m'.format(current_user,hunt_folder,target_folder,name_folder))
 
     check_dir_url = os.path.isdir('/home/{}/Desktop/{}/{}/{}/url'.format(current_user,hunt_folder,target_folder,name_folder))
     if check_dir_url == False:
@@ -40,7 +39,7 @@ def subdomain_enum(target,name_folder):
     check_dir_sub = os.path.isfile('/home/{}/Desktop/{}/{}/{}/subdomain.txt'.format(current_user,hunt_folder,target_folder,name_folder))
     if check_dir_sub == False:
         print("\033[92m[+] Get all subdomains ...\033[0m")
-        sublister = subprocess.run([sys.executable,"/usr/local/bin/sublist3r.py","-d",""+target+"","-o","/home/"+current_user+"/Desktop/"+hunt_folder+"/"+target_folder+"/"+name_folder+"/subdomain.txt"],stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT)
+        sublister = subprocess.run(["/usr/bin/python3","/usr/local/bin/sublist3r.py","-d",""+target+"","-o","/home/"+current_user+"/Desktop/"+hunt_folder+"/"+target_folder+"/"+name_folder+"/subdomain.txt"],stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT)
     else:
         print("\033[93m[-] Already have subdomains ...\033[0m")
 
@@ -90,22 +89,28 @@ def main(argv):
     target = ''
     name_folder = ''
     try:
-        opts, args = getopt.getopt(argv,"hd:n:g",["domain="])
+        opts, args = getopt.getopt(argv,"hd:f:g",["domain="])
     except getopt.GetoptError:
-      print ('Usage: python3 Enum4loser.py -d target.com -n name_of_folder')
+      print("""Usage: python3 enum4loser.py -d target.com -f name_of_folder
+
+        -d    Domain name.
+        -f    Name of the folder 
+Quick start: python3 enum4loser.py -d yeswehack.com -f ywhack""")
       sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-         print ("\033[2;31;43m Usage: python3 Enum4loser.py -d target.com -n name_of_folder -g \n -g Get url for all subdomains \n -n Creat folder with 'n' name \033[0;0m")
-         sys.exit()
+            print("""Usage: python3 enum4loser.py -d target.com -f name_of_folder
+
+        -d    Domain name.
+        -f    Name of the folder 
+Quick start: python3 enum4loser.py -d yeswehack.com -f ywhack""")
+            sys.exit()
         elif opt in ("-d", "--domain"):
             target = arg
-        elif opt in ("-n", "--name"):
+        elif opt in ("-f", "--folder"):
             name_folder = arg
             creat_folder(name_folder)
             subdomain_enum(target,name_folder)
-
-        elif opt in ("-g","--geturl"):
             scrap_url(name_folder)
 
 if __name__ == "__main__":
