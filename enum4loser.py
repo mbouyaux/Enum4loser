@@ -141,9 +141,9 @@ Quick start: python3 enum4loser.py -d yeswehack.com -f ywhack""")
             target = arg
         elif opt in ("-f", "--folder"):
             name_folder = arg
-            #creat_folder(name_folder)
-            #subdomain_enum(target,name_folder)
-            #scrap_url(name_folder)
+            creat_folder(name_folder)
+            subdomain_enum(target,name_folder)
+            scrap_url(name_folder)
         elif opt in ("-s","--server"):
             attacker_srv = arg
             trigger_open_redirect(name_folder,open_redirect_parameter,attacker_srv)
