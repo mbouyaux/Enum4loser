@@ -46,7 +46,7 @@ def subdomain_enum(target,name_folder):
     else:
         print("\033[93m[-] Already have subdomains ...\033[0m")
 
-def scrap_url(name_folder):
+def scrap_url(name_folder,attacker_srv):
         print('\033[92m[+] Get urls of subdomains ...\033[0m')
         sub_file = open("/home/{}/Desktop/{}/{}/{}/subdomain.txt".format(current_user,hunt_folder,target_folder,name_folder),"r")
         sub_number = 0
@@ -57,7 +57,9 @@ def scrap_url(name_folder):
         for i in range(sub_number):
                 t_one = threading.Thread(target=url_file,args=(name_folder,sub_list,i))
                 t_one.start()
+                t_one.join()
         print('\033[92m[+] Try to find potential open redirect ...\033[0m')
+        trigger_open_redirect(name_folder,open_redirect_parameter,attacker_srv)
 
 def url_file(name_folder,sub_list,i):
     cmd = '/usr/bin/echo "{}" | /usr/local/bin/waybackurls >> /home/{}/Desktop/{}/{}/{}/url/{}.txt '.format(sub_list[i].rstrip("\n"),current_user,hunt_folder,target_folder,name_folder,sub_list[i].rstrip("\n"))
@@ -143,10 +145,10 @@ Quick start: python3 enum4loser.py -d yeswehack.com -f ywhack""")
             name_folder = arg
             creat_folder(name_folder)
             subdomain_enum(target,name_folder)
-            scrap_url(name_folder)
-        elif opt in ("-s","--server"):
+            #scrap_url(name_folder)
+        if opt in ("-s","--server"):
             attacker_srv = arg
-            trigger_open_redirect(name_folder,open_redirect_parameter,attacker_srv)
+            scrap_url(name_folder,attacker_srv)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
