@@ -85,7 +85,10 @@ def open_redirect(name_folder):
                             f.write(url)
                             f.close()
                             known_url.append(url.split('=')[0])
+
+
 async def fetch(URL):
+    triggered = []
     async with aiohttp.ClientSession(trust_env=True) as session:
         try:
             async with session.get(URL,allow_redirects=True) as response:
@@ -93,7 +96,9 @@ async def fetch(URL):
                 repcheck = response.real_url
                 in_url = str(URL)
                 if in_url not in str(rep) and in_url not in str(repcheck):
-                    print("\033[91m[$$$] Open redirect found at : {}\033[0m".format(URL))
+                    if in_url not in triggered:
+                        print("\033[91m[$$$] Open redirect found at : {}\033[0m".format(URL))
+                        triggered.append(URL)
         except aiohttp.ClientConnectionError as e:
             pass
 
@@ -108,7 +113,7 @@ def trigger_open_redirect(name_folder,open_redirect_parameter,attacker_srv):
         for i in open_redirect_parameter:
             if url.count(i) > 0:
                 url = url.split("=")
-                url_done = url[0] + "="+attacker_srv+"/?vuln_url="+url[0]
+                url_done = url[0] + "="+attacker_srv
                 loop = asyncio.new_event_loop()
                 loop.run_until_complete(start(url_done))
 
