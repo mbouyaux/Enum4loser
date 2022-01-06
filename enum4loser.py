@@ -64,6 +64,10 @@ def scrap_url(name_folder,attacker_srv):
 def url_file(name_folder,sub_list,i):
     cmd = '/usr/bin/echo "{}" | /usr/local/bin/waybackurls >> /home/{}/Desktop/{}/{}/{}/url/{}.txt '.format(sub_list[i].rstrip("\n"),current_user,hunt_folder,target_folder,name_folder,sub_list[i].rstrip("\n"))
     subprocess.Popen(cmd,shell=True,stdout=open(os.devnull, "w"), stderr=subprocess.STDOUT).wait()
+    size = os.path.getsize("/home/{}/Desktop/{}/{}/{}/url/{}.txt".format(current_user,hunt_folder,target_folder,name_folder,sub_list[i].rstrip("\n")))
+    if size <= 1 :
+        os.remove("/home/{}/Desktop/{}/{}/{}/url/{}.txt".format(current_user,hunt_folder,target_folder,name_folder,sub_list[i].rstrip("\n")))
+
     open_redirect(name_folder)
 
 
