@@ -1,17 +1,22 @@
 import aiohttp
 import asyncio
+import os
 
-open_redirect_parameter = ['=http','=https','=www','=/','=//']
+open_redirect_parameter = ['=http','=www','=/','=']
 def openredirect(home_path,hunt_folder,target_folder,name_folder,attacker_srv):
     path = f'{home_path}/Desktop/{hunt_folder}/{target_folder}/{name_folder}/'
-    file_of_vuln_urls = open(path+"redirect")
-    for url in file_of_vuln_urls:
-        for i in open_redirect_parameter:
-            if url.count(i) > 0:
-                url = url.split("=")
-                url_done = url[0] + "="+attacker_srv
-                loop = asyncio.new_event_loop()
-                loop.run_until_complete(start(url_done))
+    check = os.path.isfile(path)
+    if check == False:
+        print("\033[93m[-] No valid url found for redirect\033[0m")
+    else:
+        file_of_vuln_urls = open(path+"redirect")
+        for url in file_of_vuln_urls:
+            for i in open_redirect_parameter:
+                if url.count(i) > 0:
+                    url = url.split("=")
+                    url_done = url[0] + "="+attacker_srv
+                    loop = asyncio.new_event_loop()
+                    loop.run_until_complete(start(url_done))
 
 async def fetch(URL):
     triggered = []
