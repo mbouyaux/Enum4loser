@@ -5,7 +5,6 @@
 ---
 ## Install
 `sudo ./setup.sh`
-- After installation you have to change the shebang of the sublist3r script locate at : /usr/local/bin/sublist3r.py, replace by /usr/bin/python3.
 ---
 ## How to use Enum4loser
 - `python3 enum4loser.py -d target.com -f name_of_folder -s endpoint_for_open-redirect`
