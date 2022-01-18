@@ -9,15 +9,14 @@ from functions.subenum import *
 from functions.urlwayback import *
 
 home_path = str(Path.home())
-urlsorting_parameter = ['=http','=https','=www','=/','=//']
-hunt_folder = "bugbounty"
-target_folder = "target"
+hunt_folder = "bugbounty" # path for outpout folder /home/user/Desktop/bugbounty/target/
+target_folder = "target"  # you can change the value of this two variables
 
 
 def main(argv):
     banner_one = pyfiglet.figlet_format("Enum4loser")
     print("\033[91m"+banner_one[0:232]+"\033[0m"+"\033[92m"+banner_one[232:300]+"\033[0m")
-    print('Version 0.3')
+    print('Version 0.4')
     print('By SpawnZii made with \033[91m<3\033[0m \n')
     target = ''
     name_folder = ''
