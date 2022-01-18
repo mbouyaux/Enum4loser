@@ -1,9 +1,6 @@
 #!/usr/bin/python3
-# By SpawnZii Version 0.4
+# By SpawnZii Version 0.5
 
-from email.policy import default
-from fileinput import filename
-from http import server
 import click
 import sys,getopt
 import pyfiglet
