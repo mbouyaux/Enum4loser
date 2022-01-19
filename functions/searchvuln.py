@@ -1,50 +1,40 @@
-#!/usr/bin/python3
-# By SpawnZii Version 0.5
+from imp import init_builtin
+from operator import attrgetter
+import aiohttp
+import asyncio
+import os
 
-import click
-import sys,getopt
-import pyfiglet
-from pathlib import Path
-from functions.creatfolder import *
-from functions.subenum import *
-from functions.urlwayback import *
-from functions.infoenum import *
-
-home_path = str(Path.home())
-urlsorting_parameter = ['=http','=https','=www','=/','=//']
-hunt_folder = "bugbounty"
-target_folder = "target"
-@click.command()
-
-@click.option('--domain','-d',help='target domain name')
-@click.option('--filename','-f',help='name of the output folder store at ~/Desktop/bugbouty/target/here')
-@click.option('--nosub',default="false",help='This options enumerate juste the main domain and not the subdomain')
-
-def main(domain,filename,server,nosub):
-    banner_one = pyfiglet.figlet_format("Enum4loser")
-    print("\033[91m"+banner_one[0:232]+"\033[0m"+"\033[92m"+banner_one[232:300]+"\033[0m")
-    print('Version 0.5')
-    print('By SpawnZii made with \033[91m<3\033[0m \n')
-    name_folder = filename
-    attacker_srv = server
-    nosub = str(nosub.lower())
-
-    if domain == None:
-        print('\033[91mIndicate a valid domain\033[0m \n')
-        exit(0)
-    if filename == None:
-        print('\033[91mIndicate a valid filename\033[0m \n')
-        exit(0) 
+open_redirect_parameter = ['=http','=www','=/','=']
+def openredirect(home_path,hunt_folder,target_folder,name_folder,attacker_srv):
+    print('\033[92m[+] Try to find potential open redirect ...\033[0m')
+    path = f'{home_path}/Desktop/{hunt_folder}/{target_folder}/{name_folder}/'
+    check = os.path.isfile(path+"redirect.txt")
+    if check == False:
+        print("\033[93m[-] No valid url found for redirect\033[0m")
     else:
-        if nosub == "true":
-            creat_folder(home_path,name_folder,hunt_folder,target_folder)
-            single_domain_url(domain,home_path,hunt_folder,target_folder,name_folder)
-            single_domain_filter(domain,home_path,hunt_folder,target_folder,name_folder)
-            openredirect(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
-        else:
-            creat_folder(home_path,name_folder,hunt_folder,target_folder)
-            subdomain_enum(domain,home_path,hunt_folder,target_folder,name_folder)
-            scrap_url(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
+        file_of_vuln_urls = open(path+"redirect.txt")
+        for url in file_of_vuln_urls:
+            for i in open_redirect_parameter:
+                if url.count(i) > 0:
+                    url = url.split("=")
+                    url_done = url[0] + "="+attacker_srv
+                    loop = asyncio.new_event_loop()
+                    loop.run_until_complete(start(url_done))
 
-if __name__ == "__main__":
-   main()
+async def fetch(URL):
+    triggered = []
+    async with aiohttp.ClientSession(trust_env=True) as session:
+        try:
+            async with session.get(URL,allow_redirects=True) as response:
+                rep = await response.text()
+                in_url = str(URL)
+                if "The Domain Name Attacker.com" in rep:
+                    if in_url not in triggered:
+                        print("\033[91m[$$$] Open redirect found at : {}\033[0m".format(URL))
+                        triggered.append(URL)
+                
+        except aiohttp.ClientConnectionError as e:
+            pass
+
+async def start(url):
+    await fetch(url)
