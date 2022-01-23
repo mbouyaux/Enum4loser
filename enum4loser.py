@@ -8,16 +8,15 @@ from functions.creatfolder import *
 from functions.subenum import *
 from functions.urlwayback import *
 
-
 home_path = str(Path.home())
 urlsorting_parameter = ['=http','=https','=www','=/','=//']
 hunt_folder = "bugbounty"
 target_folder = "target"
-attacker_srv = "https://attacker.com/"
 @click.command()
 
 @click.option('--domain','-d',help='target domain name')
 @click.option('--filename','-f',help='name of the output folder store at ~/Desktop/bugbouty/target/here')
+@click.option('--server','-s',default='https://attacker.com/',help='You can add your web server to see the logs in live')
 @click.option('--nosub',default="false",help='This options enumerate juste the main domain and not the subdomain')
 
 def main(domain,filename,server,nosub):
