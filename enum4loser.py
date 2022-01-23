@@ -2,7 +2,6 @@
 # By SpawnZii Version 0.5
 
 import click
-import sys,getopt
 import pyfiglet
 from pathlib import Path
 from functions.creatfolder import *
@@ -38,12 +37,13 @@ def main(domain,filename,server,nosub):
         exit(0) 
     else:
         if nosub == "true":
-            creat_folder(home_path,name_folder,hunt_folder,target_folder)
+            create_folder(home_path,name_folder,hunt_folder,target_folder)
             single_domain_url(domain,home_path,hunt_folder,target_folder,name_folder)
             single_domain_filter(domain,home_path,hunt_folder,target_folder,name_folder)
+            wafdetector(domain,home_path,hunt_folder,target_folder,name_folder)
             openredirect(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
         else:
-            creat_folder(home_path,name_folder,hunt_folder,target_folder)
+            create_folder(home_path,name_folder,hunt_folder,target_folder)
             subdomain_enum(domain,home_path,hunt_folder,target_folder,name_folder)
             scrap_url(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
 
