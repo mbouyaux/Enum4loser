@@ -7,7 +7,7 @@ from pathlib import Path
 from functions.creatfolder import *
 from functions.subenum import *
 from functions.urlwayback import *
-from functions.infoenum import *
+
 
 home_path = str(Path.home())
 urlsorting_parameter = ['=http','=https','=www','=/','=//']
