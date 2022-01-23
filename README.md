@@ -16,4 +16,4 @@
 - `python3 enum4loser.py -d target.com -f name_of_folder`
 - exemple : `python3 enum4loser.py -d www.yeswehack.com -f ywh --nosub true`
 - `python3 enum4loser.py -d yeswehack.com -f ywhack --nosub true` for single domain.
-- exemple : `python3 enum4loser.py -d www.yeswehack.com -f ywhalldomains`
+- exemple : `python3 enum4loser.py -d yeswehack.com -f ywhalldomains`
