@@ -13,11 +13,11 @@ home_path = str(Path.home())
 urlsorting_parameter = ['=http','=https','=www','=/','=//']
 hunt_folder = "bugbounty"
 target_folder = "target"
+attacker_srv = "https://attacker.com/"
 @click.command()
 
 @click.option('--domain','-d',help='target domain name')
 @click.option('--filename','-f',help='name of the output folder store at ~/Desktop/bugbouty/target/here')
-@click.option('--server','-s',default='https://attacker.com/',help='You can add your web server to see the logs in live')
 @click.option('--nosub',default="false",help='This options enumerate juste the main domain and not the subdomain')
 
 def main(domain,filename,server,nosub):
@@ -40,7 +40,6 @@ def main(domain,filename,server,nosub):
             create_folder(home_path,name_folder,hunt_folder,target_folder)
             single_domain_url(domain,home_path,hunt_folder,target_folder,name_folder)
             single_domain_filter(domain,home_path,hunt_folder,target_folder,name_folder)
-            wafdetector(domain,home_path,hunt_folder,target_folder,name_folder)
             openredirect(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
         else:
             create_folder(home_path,name_folder,hunt_folder,target_folder)
