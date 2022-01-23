@@ -6,6 +6,10 @@
 ## Install
 - `sudo ./setup.sh`
 ---
+## Docker install
+- `sudo docker build -t enum4loser .`
+- `sudo docker run -it enum4loser bash`
+- `root@4ad60d36ad15:/tool# ./setup.sh`
 ## How to use Enum4loser
-- `python3 enum4loser.py -d target.com -f name_of_folder -s endpoint_for_open-redirect`
-- `python3 enum4loser.py -d yeswehack.com -f ywhack -s https://www.google.com --nosub true` for single domain.
+- `python3 enum4loser.py -d target.com -f name_of_folder`
+- `python3 enum4loser.py -d yeswehack.com -f ywhack --nosub true` for single domain.
