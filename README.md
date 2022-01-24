@@ -15,7 +15,8 @@
 - `sudo docker run -it enum4loser bash`
 - `root@4ad60d36ad15:/tool# ./setup.sh`
 ## How to use Enum4loser
-- `python3 enum4loser.py -d target.com -f name_of_folder`
-- exemple : `python3 enum4loser.py -d www.yeswehack.com -f ywh --nosub true`
-- `python3 enum4loser.py -d yeswehack.com -f ywhack --nosub true` for single domain.
-- exemple : `python3 enum4loser.py -d yeswehack.com -f ywhalldomains`
+- `python3 enum4loser.py -d www.target.com -f name_of_folder`
+- exemple : `python3 enum4loser.py -d www.yeswehack.com -f ywh --nosub true` for single domain.
+- `python3 enum4loser.py -d target.com -f ywhack `
+- exemple : `python3 enum4loser.py -d name_of_folder -f ywhalldomains`
+- The result is store at /home/user/Desktop/bugbounty/target/name_of_folder .
