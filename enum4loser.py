@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 # By SpawnZii Version 0.5
 
+from pathlib import Path
+import sys
 import click
 import pyfiglet
-from pathlib import Path
 from functions.creatfolder import *
 from functions.subenum import *
 from functions.urlwayback import *
