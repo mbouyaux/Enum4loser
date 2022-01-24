@@ -27,10 +27,10 @@ def main(domain,filename,nosub):
     attacker_srv = "https://attacker.com/"
     nosub = str(nosub.lower())
 
-    if domain == None:
+    if domain is None:
         print('\033[91mIndicate a valid domain\033[0m \n')
         exit(0)
-    if filename == None:
+    if filename is None:
         print('\033[91mIndicate a valid filename\033[0m \n')
         exit(0) 
     else:
@@ -45,4 +45,4 @@ def main(domain,filename,nosub):
             scrap_url(home_path,hunt_folder,target_folder,name_folder,attacker_srv)
 
 if __name__ == "__main__":
-   main()
+    main()
