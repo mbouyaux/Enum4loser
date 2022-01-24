@@ -1,6 +1,6 @@
 # Enum4Loser
 ## About
-- Enum4loser is a tool I developed to simplify the enumeration of your scope in bugbounty.He will be get all subdomains of the target and find all urls thanks to webarchive.
+- Enum4loser is a tool I developed to simplify the enumeration of your scope in bugbounty. He will get all target subdomains and find all urls thanks to webarchive.
 ![](/images/df.png)
 - He will test if some specific urls are vulnerable to open-redirect and print the PoC, all tested urls are saved in redirect file.
 ![](/images/op.png)
