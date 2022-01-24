@@ -16,10 +16,9 @@ target_folder = "target"
 
 @click.option('--domain','-d',help='target domain name')
 @click.option('--filename','-f',help='name of the output folder store at ~/Desktop/bugbouty/target/here')
-#@click.option('--server','-s',default='https://attacker.com/',help='You can add your web server to see the logs in live')
 @click.option('--nosub',default="false",help='This options enumerate juste the main domain and not the subdomain, false by default')
 
-def main(domain,filename,server,nosub):
+def main(domain,filename,nosub):
     banner_one = pyfiglet.figlet_format("Enum4loser")
     print("\033[91m"+banner_one[0:232]+"\033[0m"+"\033[92m"+banner_one[232:300]+"\033[0m")
     print('Version 0.5')
